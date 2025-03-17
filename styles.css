@@ -12,13 +12,13 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    padding: 2rem;
+    padding: 1rem;
     color: #1a1a1a;
 }
 
 .container {
     background-color: #ffffff;
-    padding: 2.5rem;
+    padding: 1.5rem;
     border-radius: 16px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
     width: 100%;
@@ -28,21 +28,23 @@ body {
 
 h1 {
     color: #1a1a1a;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     text-align: center;
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 600;
     letter-spacing: -0.5px;
 }
 
 .todo-input {
     display: flex;
-    gap: 0.75rem;
-    margin-bottom: 2rem;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
 }
 
 input[type="text"] {
     flex: 1;
+    min-width: 200px;
     padding: 0.875rem 1.25rem;
     background-color: #ffffff;
     border: 2px solid #e5e7eb;
@@ -74,6 +76,7 @@ button {
     font-weight: 500;
     transition: all 0.2s ease;
     box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+    white-space: nowrap;
 }
 
 button:hover {
@@ -96,6 +99,8 @@ button:hover {
     transition: all 0.2s ease;
     border: 2px solid #e5e7eb;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .todo-item:hover {
@@ -123,6 +128,7 @@ button:hover {
     cursor: pointer;
     accent-color: #4CAF50;
     border-radius: 4px;
+    flex-shrink: 0;
 }
 
 .todo-item span {
@@ -131,6 +137,7 @@ button:hover {
     font-size: 1rem;
     color: #1a1a1a;
     font-weight: 500;
+    word-break: break-word;
 }
 
 .delete-btn {
@@ -138,9 +145,107 @@ button:hover {
     padding: 0.625rem 1rem;
     font-size: 0.875rem;
     box-shadow: 0 2px 4px rgba(255, 82, 82, 0.2);
+    flex-shrink: 0;
 }
 
 .delete-btn:hover {
     background-color: #ff1744;
     box-shadow: 0 4px 8px rgba(255, 82, 82, 0.25);
+}
+
+/* Tablet Styles */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .container {
+        padding: 1.25rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1.25rem;
+    }
+
+    input[type="text"] {
+        min-width: 180px;
+    }
+
+    .todo-item {
+        padding: 0.875rem 1rem;
+    }
+}
+
+/* Mobile Styles */
+@media (max-width: 480px) {
+    body {
+        padding: 0.5rem;
+    }
+
+    .container {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    h1 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .todo-input {
+        flex-direction: column;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .todo-item {
+        padding: 0.75rem;
+    }
+
+    .todo-item span {
+        font-size: 0.95rem;
+        margin: 0 0.5rem;
+    }
+
+    .delete-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 320px) {
+    .container {
+        padding: 0.75rem;
+    }
+
+    h1 {
+        font-size: 1.1rem;
+    }
+
+    input[type="text"] {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    button {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .todo-item {
+        padding: 0.625rem;
+    }
+
+    .todo-item span {
+        font-size: 0.9rem;
+    }
 } 
