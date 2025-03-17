@@ -3,12 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prakash Ji's To-do List</title>
+    <title>Simple Todo App</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logout-btn {
+            background-color: #64748b;
+        }
+
+        .logout-btn:hover {
+            background-color: #475569;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Prakash Ji's To-do List</h1>
+        <div class="header">
+            <h1>Prakash Ji's To-do List</h1>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
         <div class="todo-input">
             <input type="text" id="todoInput" placeholder="Add a new task...">
             <button onclick="addTodo()">Add</button>
@@ -17,6 +36,17 @@
             <!-- Todo items will be added here dynamically -->
         </ul>
     </div>
+    <script>
+        // Check if user is logged in
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'login.html';
+        }
+
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            window.location.href = 'login.html';
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html> 
