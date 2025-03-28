@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     loadTodos();
     updateDate();
     initializeSortable();
+    updateProgress();
+    updateStreak();
 });
 
 function updateDate() {
@@ -76,6 +78,7 @@ function addTodo() {
         saveTodos(todos);
         input.value = '';
         loadTodos();
+        updateProgress();
     }
 }
 
@@ -87,6 +90,8 @@ function toggleTodo(id) {
         todo.completed = !todo.completed;
         saveTodos(todos);
         loadTodos();
+        updateProgress();
+        updateStreak();
     }
 }
 
@@ -96,6 +101,8 @@ function deleteTodo(id) {
     const newTodos = todos.filter(todo => todo.id !== parseInt(id));
     saveTodos(newTodos);
     loadTodos();
+    updateProgress();
+    updateStreak();
 }
 
 // Function to edit a todo
@@ -171,7 +178,6 @@ function filterTodos() {
 }
 
 // Helper functions
-
 function getTodos() {
     return JSON.parse(localStorage.getItem('todos')) || [];
 }
@@ -209,9 +215,9 @@ todoInput.addEventListener('keypress', (e) => {
 });
 
 // Initialize search and filters
-document.querySelector('.search-bar').addEventListener('input', filterTodos);
-document.querySelector('.priority-select').addEventListener('change', filterTodos);
-document.querySelector('.category-select').addEventListener('change', filterTodos);
+document.querySelector('.search-input').addEventListener('input', filterTodos);
+document.querySelector('.filter-priority').addEventListener('change', filterTodos);
+document.querySelector('.filter-category').addEventListener('change', filterTodos);
 
 // Add notification functionality
 function checkDueDate() {
@@ -238,5 +244,76 @@ function notifyUser(todo) {
 }
 
 // Check for due tasks every hour
-setInterval(checkDueDate, 3600000); 
-setInterval(checkDueDate, 3600000); 
+setInterval(checkDueDate, 3600000);
+
+// Function to update progress
+function updateProgress() {
+    const todos = getTodos();
+    const todayTodos = todos.filter(todo => {
+        const todoDate = todo.dueDate ? new Date(todo.dueDate).toDateString() : new Date().toDateString();
+        return todoDate === new Date().toDateString();
+    });
+
+    if (todayTodos.length === 0) {
+        document.getElementById('todayProgress').style.width = '0%';
+        document.getElementById('todayProgressText').textContent = 'No tasks for today';
+        return;
+    }
+
+    const completedCount = todayTodos.filter(todo => todo.completed).length;
+    const percentage = Math.round((completedCount / todayTodos.length) * 100);
+    
+    document.getElementById('todayProgress').style.width = percentage + '%';
+    document.getElementById('todayProgressText').textContent = `${percentage}% Complete`;
+}
+
+// Function to update streak
+function updateStreak() {
+    let streak = parseInt(localStorage.getItem('streak') || '0');
+    const lastComplete = localStorage.getItem('lastComplete');
+    const today = new Date().toDateString();
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+
+    const todos = getTodos();
+    const todayTodos = todos.filter(todo => {
+        const todoDate = todo.dueDate ? new Date(todo.dueDate).toDateString() : today;
+        return todoDate === today;
+    });
+
+    const allTodayComplete = todayTodos.length > 0 && todayTodos.every(todo => todo.completed);
+
+    if (allTodayComplete) {
+        if (lastComplete === yesterday) {
+            streak++;
+        } else if (lastComplete !== today) {
+            streak = 1;
+        }
+        localStorage.setItem('lastComplete', today);
+    } else if (lastComplete !== today && lastComplete !== yesterday) {
+        streak = 0;
+    }
+
+    localStorage.setItem('streak', streak.toString());
+    document.getElementById('currentStreak').textContent = streak;
+}
+
+// Update the original functions to include progress tracking
+const originalAddTodo = addTodo;
+window.addTodo = function() {
+    originalAddTodo.apply(this, arguments);
+    updateProgress();
+};
+
+const originalToggleTodo = toggleTodo;
+window.toggleTodo = function() {
+    originalToggleTodo.apply(this, arguments);
+    updateProgress();
+    updateStreak();
+};
+
+const originalDeleteTodo = deleteTodo;
+window.deleteTodo = function() {
+    originalDeleteTodo.apply(this, arguments);
+    updateProgress();
+    updateStreak();
+}; 

@@ -17,8 +17,27 @@
         </header>
 
         <div class="welcome-section">
+            <img src="prakashs-img.png" alt="Prakashji" class="profile-image">
             <h2 class="welcome-title">Welcome Prakashji</h2>
             <p class="welcome-greeting" id="timeGreeting"></p>
+        </div>
+
+        <!-- Progress Tracker -->
+        <div class="progress-section">
+            <div class="progress-stats">
+                <div class="progress-card">
+                    <div class="progress-title">Today's Progress</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="todayProgress"></div>
+                    </div>
+                    <div class="progress-text" id="todayProgressText">0% Complete</div>
+                </div>
+                <div class="progress-card">
+                    <div class="progress-title">Current Streak</div>
+                    <div class="streak-count" id="currentStreak">0</div>
+                    <div class="progress-text">days in a row</div>
+                </div>
+            </div>
         </div>
 
         <div class="add-task-section">
@@ -27,7 +46,6 @@
                 <button class="add-task-btn" onclick="addTodo()">Add Task</button>
             </div>
             
-            <!-- Task Options (initially hidden, shows when input is focused) -->
             <div class="task-options">
                 <select id="priority" class="priority-select">
                     <option value="low">Low Priority</option>
